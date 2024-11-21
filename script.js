@@ -8,30 +8,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.getElementById('task-input');
     const taskList = document.getElementById('task-list');
 
-    // Function to load tasks from Local Storage
-    function loadTasks() {
-        const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-        storedTasks.forEach(taskText => addTask(taskText, false)); // 'false' indicates not to save again to Local Storage
+    function addTask() {
+        // Step 1: Retrieve the input field value and trim it
+        const taskInput = document.getElementById("taskInput"); // Replace with your input's id
+        const taskText = taskInput.value.trim(); // Remove leading/trailing whitespace
+    
+        // Step 2: Check if the input is empty
+        if (taskText === "") {
+            alert("Please enter a task!"); // Alert the user if the input is empty
+            return; // Exit the function
+        }
+    
+        // Step 3: Add the task to the list
+        const taskList = document.getElementById("taskList"); // Replace with your list's id
+        const listItem = document.createElement("li"); // Create a new list item
+        listItem.textContent = taskText; // Set the text of the list item
+    
+        // Step 4: Append the new task to the list
+        taskList.appendChild(listItem);
+    
+        // Step 5: Clear the input field
+        taskInput.value = "";
     }
-
-    // Function to add a new task
-    function addTask(taskText, save = true) {
-        // Create a new li element
-        const listItem = document.createElement('li');
-        listItem.textContent = taskText;
-
-        // Create a remove button
-        const removeButton = document.createElement('button');
-        removeButton.textContent = "Remove";
-        removeButton.className = 'remove-btn';
-
-        // Assign an onclick event to the remove button
-        removeButton.onclick = function() {
-            taskList.removeChild(listItem); // Remove the li element from taskList
-            removeTaskFromLocalStorage(taskText); // Also remove from Local Storage
-        };
-
-        // Append the remove button to the li element
-        listItem.appendChild(removeButton);
-	
-
